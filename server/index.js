@@ -1,5 +1,5 @@
 import { Pinecone } from '@pinecone-database/pinecone';
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { PineconeStore } from "@langchain/community/vectorstores/pinecone";
@@ -9,6 +9,7 @@ import { Document } from "langchain/document";
 import * as fs from "fs";
 
 dotenv.config();
+
 
 const pinecone = new Pinecone({
     apiKey: process.env.Pin_API_KEY
