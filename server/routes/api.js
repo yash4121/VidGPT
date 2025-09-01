@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const qaAns = require("../index.js");
+const qaAns = require("../getAnswers.js");
 router.post("/getAnswer", async (req, res) => {
     let query = await req.body.question;
     try {
