@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Typography } from "@mui/material";
-import "../styles/body.css";
+import "../styles/style.css";
+import "bootstrap/dist/css/bootstrap.css";
 const Body = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -33,7 +34,8 @@ const Body = () => {
   };
   return (
     <div>
-      <div className="body">
+      <div className="body container-fluid justify-content-center">
+      <p className="text-area">{gotAnswer && answer}</p>
         <input
           className="input-area"
           id="outlined-textarea"
@@ -44,11 +46,11 @@ const Body = () => {
           onChange={handleChange}
         />
         {loading ? (
-          <button className="btn" disabled>
+          <button className="btn btn-secondary" disabled>
             Loading
           </button>
         ) : (
-          <button className="btn" variant="contained" onClick={handleSubmit}>
+          <button className="btn-primary" onClick={handleSubmit}>
             Get Answer
           </button>
         )}

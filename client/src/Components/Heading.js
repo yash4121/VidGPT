@@ -1,9 +1,9 @@
 import React from "react";
-
+import "../styles/style.css";
 const Heading = () => {
   return (
-    <div className="container">
-        <h3 className="heading">VidGPT</h3>
+    <div className="heading">
+        <h3 className="title">VidGPT</h3>
     </div>
   );
 };
