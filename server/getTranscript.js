@@ -2,12 +2,15 @@ require('dotenv').config();
 const fs = require("fs");
 const path = require("path");
 const { createClient } = require('@deepgram/sdk');
+const TranscribeData = require("./models/TranscribeData");
+const connectDB = require("./models/db");
+connectDB(true);
 
 const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
 
 async function transcribe() {
   try{
-    const audioPath = path.join(__dirname, 'audio2.mp3');
+    const audioPath = path.join(__dirname, 'compressedAudio.mp3');
     if(!fs.existsSync(audioPath)){
       throw new Error('Audio file not found: audio.mp3');
     }
@@ -30,6 +33,7 @@ async function transcribe() {
       return;
     }
     console.log('Transcript:', transcript);
+    return transcript;
     const transcriptFilePath = path.join(__dirname,'transcript.txt');
     fs.writeFileSync(transcriptFilePath,transcript);
   } catch(err) {
@@ -38,7 +42,35 @@ async function transcribe() {
   // console.dir(result, { depth: null });
 }
 
+async function saveFile() {
+  try {
+    const name = "transcribe";
+    let data = await TranscribeData.findOne({ name });
+    if (!data) {
+      await TranscribeData.create({
+        name: name,
+        transcribe: jsonString,
+      }).then(console.log("Transcript Uploaded On Database"));
+    } else {
+      await TranscribeData.findOneAndUpdate(
+        {
+          name: name,
+        },
+        {
+          $set: {
+            transcribe: jsonString,
+          },
+        }
+      ).then(console.log("Transcribe Updated Successfully !"));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  mongoDB(false);
+}
+
 transcribe();
+saveFile()
 
 
 

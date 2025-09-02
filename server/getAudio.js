@@ -2,21 +2,26 @@ const ytdl = require('ytdl-core')
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg")
 ffmpeg.setFfmpegPath(ffmpegPath)
-const videURL = "https://www.youtube.com/watch?v=0CmtDk-joT4"
-const audio = ytdl(videURL,{
-    quality: "highestaudio",
-    filter: "audioonly"
-});
-ffmpeg(audio)
-    .toFormat('mp3')
-    .saveToFile("audio2.mp3", (stdout, stderr) => {})
-    .on("end",() => {
-    console.log("finish converting to mp3")
-    })
-    .on("progress", (frames) => {
-        console.log(frames.timemark);
-    })
-    .on("error",(err) => {
-    console.log(err)
-    })
-    .run(); 
+const videoURL = "https://www.youtube.com/watch?v=0CmtDk-joT4"
+
+const getAudio = async () => {
+    const audio = ytdl(videoURL,{
+        quality: "highestaudio",
+        filter: "audioonly"
+    });
+    ffmpeg(audio)
+        .toFormat("mp3")
+        .saveToFile("audio.mp3", (stdout, stderr) => {})
+        .on("end", () => {
+        console.log("Finished converting video to MP3!");
+        })
+        .on("progress", (progress) => {
+        console.log(progress.timemark);
+        })
+        .on("error", (err) => {
+        console.error(err);
+        })
+        .run();
+    };
+    // module.exports = getAudio;
+getAudio();
